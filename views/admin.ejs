@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration</title>
+</head>
+<body>
+    <canvas id="canvas"style="border:2px solid black" >Your browser does not support canvas</canvas>
+<div style="height:50px; width:50px; display: inline-block; margin: 10px ; background-color:red" onclick="change('red')"></div>
+<div style="height:50px; width:50px; display: inline-block; margin: 10px ; background-color:rgb(67, 32, 240);" onclick="change('blue')" ></div>
+<div style="height:50px; width:50px; display: inline-block; margin: 10px ; background-color:rgb(210, 255, 9);" onclick="change('yellow')" ></div>
+
+<div style="height:50px; width:50px; display: inline-block; margin: 10px ; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd4qH0j0Dl-Ou-qa2ZPMlRr9jIL5P8h-DrEg&usqp=CAU'); background-size: 50px 50px;"  onclick="change('white')"></div>
+<input max="20" min="1" type="range" oninput="changeWidth()" id="slider" value="3">
+
+
+    <script>
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d"); 
+        canvas.height=window.innerHeight;
+        canvas.width=window.innerWidth;
+        
+        window.addEventListener("resize",()=>{
+            canvas.height=window.innerHeight*0.7;
+            canvas.width=window.innerWidth;
+        })
+        let paint = false;
+
+        function startdraw(){
+            paint=true;
+        }
+        function endDraw(){
+            paint=false;
+            ctx.beginPath();
+        }
+        function draw(event){
+            if(!paint)
+            return;
+            ctx.lineCap = 'round';
+            ctx.lineTo(event.clientX,event.clientY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(event.clientX,event.clientY);
+
+        }
+        function changeWidth(){
+            ctx.lineWidth = document.getElementById('slider').value;
+        }
+
+        function change(value){
+            ctx.strokeStyle = value;
+        }
+
+
+        canvas.addEventListener('mousedown',startdraw);
+        canvas.addEventListener('mouseup',endDraw);
+        canvas.addEventListener('mousemove',draw);
+
+
+    </script>
+</body>
+</html>
